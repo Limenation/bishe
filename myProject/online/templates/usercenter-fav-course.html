@@ -1,0 +1,68 @@
+{% extends 'usercenter_base.html' %}
+
+{% load staticfiles %}
+
+{% block title %} 我的收藏 {% endblock %}
+
+{% block custom_bread %} 我的收藏 {% endblock %}
+
+{% block body %}
+<section>
+	<div class="wp list personal_list">
+            <div class="left">
+                <ul>
+                    <li class="{% ifequal request.path|slice:'15' '/users/userinfo' %}active2{% endifequal %}"><a href="{% url 'users:userinfo' %}">个人资料</a></li>
+                    <li class="{% ifequal request.path|slice:'15' '/users/mycourse' %}active2{% endifequal %}"><a href="{% url 'users:mycourse' %}">我的课程</a></li>
+                    <li class="{% ifequal request.path|slice:'12' '/users/myfav' %}active2{% endifequal %}"><a href="{% url 'users:myfavorg' %}">我的收藏</a></li>
+                    <li class="{% ifequal request.path|slice:'16' '/users/mymessage' %}active2{% endifequal %}">
+                        <a href="{% url 'users:mymessage' %}" style="position: relative;">
+                            我的消息
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+    
+    <div class="right" >
+            <div class="personal_des Releasecont">
+                <div class="head">
+                    <h1>我的收藏</h1>
+                </div>
+            </div>
+            <div class="personal_des permessage">
+                <div class="head">
+                    <ul class="tab_header messagehead">
+                        <li class="{% ifequal request.path|slice:'15' '/users/myfavorg' %}active{% endifequal %}"><a href="{% url 'users:myfavorg' %}">课程机构</a> </li>
+                        <li class="{% ifequal request.path|slice:'19' '/users/myfavteacher' %}active{% endifequal %}"><a href="{% url 'users:myfavteacher' %}">授课教师 </a></li>
+                        <li class="{% ifequal request.path|slice:'18' '/users/myfavcourse' %}active{% endifequal %}"><a href="{% url 'users:myfavcourse' %}">公开课</a></li>
+                    </ul>
+
+                </div>
+                <div class="companycenter">
+                    <div class="group_list brief">
+                        {% for course in courses %}
+                        <div class="module1_5 box">
+                            <a href="{% url 'courses:detail' course.id %}">
+                                <img width="214" height="190" src="{{ MEDIA_URL }}{{ course.image }}"/>
+                            </a>
+                            <div class="des">
+                                <a href="{% url 'courses:detail' course.id %}"><h2>{{ course.name }}</h2></a>
+                                <span class="fl">时长：<i class="key">{{ course.learn_time }}</i></span>
+                                <span class="fr">学习人数：{{ course.students }}</span>
+                            </div>
+                            <div class="bottom">
+                                <span class="fl">{{ course.course_org.name }}</span>
+                                <span class="delete-group fr jsDeleteFav_course" data-favid="{{ course.id }}"></span>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+	</div>
+</section>
+{% endblock %}
